@@ -29,14 +29,14 @@ public class DepartmentsService {
         departments.add(department);
     }
 
-    public String getDepartment(String code) {
+    public Department getDepartment(String code) {
 
         for (Department department : departments) {
             if (department.getCode().equals(code)) {
-                return department.toString();
+                return department;
             }
         }
-        return "Code no encontrado";
+        return null;
     }
 
     public void deleteDepartment(String code) {
