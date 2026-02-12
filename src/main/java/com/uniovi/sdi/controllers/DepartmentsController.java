@@ -20,32 +20,21 @@ public class DepartmentsController {
         return "department/list";
     }
 
-    @RequestMapping(value  = "/department/add")
+    @GetMapping(value  = "/department/add")
     public String getDepartment() {
         return "department/add";
     }
 
-    @RequestMapping(value = "/department/add", method = RequestMethod.POST)
+    @PostMapping(value = "/department/add")
     public String setDepartment(@ModelAttribute Department department) {
        departmentsService.addDepartment(department);
        return "redirect:/department/list";
     }
 
-    @RequestMapping("/department/details")
+    @GetMapping("/department/details")
     public String getDetail(Model departmentModel, @RequestParam("id") Long id) {
         departmentModel.addAttribute("department", departmentsService.getDepartment(id));
         return "department/details";
-    }
-
-    @RequestMapping(value =  "/department/edit/{id}")
-    public String getEdit(@PathVariable Long id) {
-        return "department/edit";
-    }
-
-    @RequestMapping(value="/department/edit",method = RequestMethod.POST)
-    public String setEdit(@ModelAttribute Department department){
-      departmentsService.addDepartment(department);
-        return "redirect:/department/details/"+ department.getId();
     }
 
     @RequestMapping("/department/delete/{id}")
@@ -53,4 +42,19 @@ public class DepartmentsController {
         departmentsService.deleteDepartment(id);
         return "redirect:/department/list";
     }
+
+    @RequestMapping(value =  "/department/edit/{id}")
+    public String getEdit(Model model, @PathVariable Long id) {
+        model.addAttribute("department", departmentsService.getDepartment(id));
+        return "department/edit";
+    }
+
+    @PostMapping(value="/department/edit/{id}")
+    public String setEdit(@ModelAttribute Department department, @PathVariable Long id){
+        department.setId(id);
+        departmentsService.addDepartment(department);
+        return "redirect:/department/details?id="+ id;
+    }
+
+
 }
