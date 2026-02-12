@@ -1,49 +1,40 @@
 package com.uniovi.sdi.services;
 
 import com.uniovi.sdi.entities.Department;
+import com.uniovi.sdi.repositories.DepartmentsRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 @Service
 public class DepartmentsService {
 
-    private final List<Department> departments = new LinkedList<>();
+    private final DepartmentsRepository departmentsRepository;
 
-    @PostConstruct
-    public void init() {
-        departments.add(new Department("Departamento1", "Nombre1", "Facultad1","111",1));
-        departments.add(new Department("Departamento2", "Nombre2", "Facultad2","222",2));
-        departments.add(new Department("Departamento3", "Nombre3", "Facultad3","333",3));
-    }
+   public DepartmentsService(DepartmentsRepository departmentsRepository){
+       this.departmentsRepository =departmentsRepository;
+   }
 
 
     public List<Department> getDepartments() {
-        return new LinkedList<>(departments);
+        List<Department> departments = new ArrayList<>();
+        departmentsRepository.findAll().forEach(departments::add);
+        return departments;
     }
 
-    //Para añadir con get -> http://localhost:8090/departments/add?code=Departamento4&name=Nombre4&faculty=Facultad4&phone=444&professors=4
     public void addDepartment(Department department) {
-        departments.add(department);
+       departmentsRepository.save(department);
     }
 
-    public Department getDepartment(String code) {
-
-        for (Department department : departments) {
-            if (department.getCode().equals(code)) {
-                return department;
-            }
-        }
-        return null;
+    public Department getDepartment(Long id) {
+       return departmentsRepository.findById(id).orElse(null);
     }
 
-    public void deleteDepartment(String code) {
-        Department d = departments.stream().filter(department -> department.getCode().equals(code)).findFirst().orElse(null);
-        if (d != null) {
-            departments.remove(d);
-        }
+    public void deleteDepartment(Long id) {
+       departmentsRepository.deleteById(id);
     }
 
 }

@@ -27,9 +27,9 @@
                 <td th:text="${department.faculty}">Facultad</td>
                 <td th:text="${department.phone}">343256</td>
                 <td th:text="${department.professors}">5</td>
-                <td><a th:href="${'/department/details?code=' + department.code}">detalles</a></td>
-                <td><a th:href="${'/department/edit/' + department.code}">modificar</a></td>
-                <td><a th:href="${'/department/delete/' + department.code}">eliminar</a></td>
+                <td><a th:href="${'/department/details?id=' + department.id}">detalles</a></td>
+                <td><a th:href="${'/department/edit/' + department.id}">modificar</a></td>
+                <td><a th:href="${'/department/delete/' + department.id}">eliminar</a></td>
             </tr>
             </tbody>
         </table>

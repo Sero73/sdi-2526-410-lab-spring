@@ -32,25 +32,25 @@ public class DepartmentsController {
     }
 
     @RequestMapping("/department/details")
-    public String getDetail(Model departmentModel, @RequestParam("code") String code) {
-        departmentModel.addAttribute("department", departmentsService.getDepartment(code));
+    public String getDetail(Model departmentModel, @RequestParam("id") Long id) {
+        departmentModel.addAttribute("department", departmentsService.getDepartment(id));
         return "department/details";
     }
 
-    @RequestMapping(value =  "/department/edit/{code}")
-    public String getEdit(@PathVariable String code) {
+    @RequestMapping(value =  "/department/edit/{id}")
+    public String getEdit(@PathVariable Long id) {
         return "department/edit";
     }
 
     @RequestMapping(value="/department/edit",method = RequestMethod.POST)
     public String setEdit(@ModelAttribute Department department){
       departmentsService.addDepartment(department);
-        return "redirect:/department/details/"+ department.getCode();
+        return "redirect:/department/details/"+ department.getId();
     }
 
-    @RequestMapping("/department/delete/{code}")
-    public String deleteDepartment(@PathVariable String code) {
-        departmentsService.deleteDepartment(code);
+    @RequestMapping("/department/delete/{id}")
+    public String deleteDepartment(@PathVariable Long id) {
+        departmentsService.deleteDepartment(id);
         return "redirect:/department/list";
     }
 }

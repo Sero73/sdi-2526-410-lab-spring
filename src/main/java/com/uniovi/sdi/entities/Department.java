@@ -1,7 +1,15 @@
 package com.uniovi.sdi.entities;
 
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
+@Entity
 public class Department {
+    @Id
+    @GeneratedValue
+    private Long id;
     private String code;
     private String name;
     private String faculty;
@@ -10,12 +18,21 @@ public class Department {
 
     public Department(){}
 
-    public Department(String code, String name, String faculty, String phone, int professors) {
+    public Department(Long id, String code, String name, String faculty, String phone, int professors) {
+        this.id = id;
         this.code = code;
         this.name = name;
         this.faculty = faculty;
         this.phone = phone;
         this.professors = professors;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCode() {
@@ -58,11 +75,11 @@ public class Department {
         this.professors = professors;
     }
 
-
     @Override
     public String toString() {
         return "Department{" +
-                "code='" + code +
+                "id=" + id +
+                ", code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 ", faculty='" + faculty + '\'' +
                 ", phone='" + phone + '\'' +
