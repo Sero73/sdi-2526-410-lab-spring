@@ -16,6 +16,7 @@ public class UsersController {
     private final UsersService usersService;
     private final SecurityService securityService;
     private final SignUpFormValidator signUpFormValidator;
+
     public UsersController(UsersService usersService, SecurityService securityService,
                            SignUpFormValidator signUpFormValidator) {
         this.usersService = usersService;
@@ -57,7 +58,7 @@ public class UsersController {
     }
     @PostMapping(value = "/user/edit/{id}")
     public String setEdit(@PathVariable Long id, @ModelAttribute User user) {
-        usersService.addUser(user);
+        usersService.updateUser(user);
         return "redirect:/user/details/" + id;
     }
 
@@ -90,5 +91,11 @@ public class UsersController {
         User activeUser = usersService.getUserByDni(dni);
         model.addAttribute("marksList", activeUser.getMarks());
         return "home";
+    }
+
+    @GetMapping("/user/list/update")
+    public String updateList(Model model) {
+        model.addAttribute("usersList", usersService.getUsers());
+        return "user/list :: usersTable";
     }
 }
