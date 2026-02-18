@@ -2,16 +2,22 @@ package com.uniovi.sdi.controllers;
 
 import com.uniovi.sdi.entities.Department;
 import com.uniovi.sdi.services.DepartmentsService;
+import com.uniovi.sdi.validators.AddDepartmentValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class DepartmentsController {
     private final DepartmentsService departmentsService;
+    private final AddDepartmentValidator  addDepartmentValidator;
 
-    public DepartmentsController(DepartmentsService departmentsService){
+    public DepartmentsController(DepartmentsService departmentsService, AddDepartmentValidator addDepartmentValidator) {
+         this.addDepartmentValidator = addDepartmentValidator;
         this.departmentsService = departmentsService;
+
     }
 
     @RequestMapping("/department/list")
@@ -21,12 +27,17 @@ public class DepartmentsController {
     }
 
     @GetMapping(value  = "/department/add")
-    public String getDepartment() {
+    public String getDepartment(Model model) {
+        model.addAttribute("department", new Department());
         return "department/add";
     }
 
     @PostMapping(value = "/department/add")
-    public String setDepartment(@ModelAttribute Department department) {
+    public String setDepartment(@Validated Department department, BindingResult result) {
+        addDepartmentValidator.validate(department, result);
+        if(result.hasErrors()){
+            return "department/add";
+        }
        departmentsService.addDepartment(department);
        return "redirect:/department/list";
     }

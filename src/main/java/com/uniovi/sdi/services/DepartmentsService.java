@@ -37,4 +37,8 @@ public class DepartmentsService {
        departmentsRepository.deleteById(id);
     }
 
+    public Department getDepartmentByCode(String code) {
+        return departmentsRepository.findByCode(code);
+    }
+
 }

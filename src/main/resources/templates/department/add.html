@@ -4,36 +4,40 @@
 <body>
 <nav th:replace="fragments/nav"></nav>
 <div class="container" id="main-container">
-    <h2>Agregar nota</h2>
-    <form class="form-horizontal" method="post" action="/department/add">
+    <h2>Agregar Departamento</h2>
+    <form class="form-horizontal" method="post" action="/department/add" th:object="${department}">
         <div class="form-group">
             <label class="control-label col-sm-2" for="code">Code:</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="code" name="code" placeholder="Codigo departamento" required="true" />
+                <span class="text-danger" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></span>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="name">Nombre:</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="name" name="name" placeholder="Nombre departamento" required="true" />
+                <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="faculty">Faculty:</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="faculty" name="faculty" placeholder="Facultad" required="true" />
+                <span class="text-danger" th:if="${#fields.hasErrors('faculty')}" th:errors="*{faculty}"></span>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="phone">Telefono:</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="phone" name="phone" placeholder="Telefono" required="true" />
+                <span class="text-danger" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="professors">Profesores:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="professors" name="professors" placeholder="5" required="true" />
+                <input type="number" class="form-control" id="professors" name="professors" placeholder="5" required="true" />
             </div>
         </div>
 

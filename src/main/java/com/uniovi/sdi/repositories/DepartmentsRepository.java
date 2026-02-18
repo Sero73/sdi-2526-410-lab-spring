@@ -4,4 +4,5 @@ import com.uniovi.sdi.entities.Department;
 import org.springframework.data.repository.CrudRepository;
 
 public interface DepartmentsRepository extends CrudRepository<Department,Long> {
+    Department findByCode(String code);
 }

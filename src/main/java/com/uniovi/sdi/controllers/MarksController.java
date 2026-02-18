@@ -3,32 +3,42 @@ package com.uniovi.sdi.controllers;
 import com.uniovi.sdi.entities.Mark;
 import com.uniovi.sdi.services.MarksService;
 import com.uniovi.sdi.services.UsersService;
+import com.uniovi.sdi.validators.AddMarkValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
 public class MarksController {
     private final MarksService marksService;
     private final UsersService usersService;
+    private final AddMarkValidator addMarkValidator;
 
-    public MarksController(MarksService marksService, UsersService usersService) {
+    public MarksController(MarksService marksService, UsersService usersService, AddMarkValidator addMarkValidator) {
         this.marksService = marksService;
         this.usersService = usersService;
+        this.addMarkValidator = addMarkValidator;
     }
 
     @GetMapping(value = "/mark/add")
     public String getMark(Model model) {
         model.addAttribute("usersList", usersService.getUsers());
+        model.addAttribute("mark", new Mark());
         return "mark/add";
     }
 
     @PostMapping("/mark/add")
-    public String setMark(@ModelAttribute Mark mark) {
+    public String setMark(@Validated Mark mark, BindingResult result, Model model) {
+        addMarkValidator.validate(mark, result);
+        if (result.hasErrors()) {
+            model.addAttribute("usersList", usersService.getUsers());
+            return "mark/add";
+        }
+
         marksService.addMark(mark);
-        return "redirect:/mark/add";
-       // return "mark/add";
+        return "redirect:/mark/list";
     }
 
     @GetMapping ("/mark/list")
