@@ -75,11 +75,16 @@ public class Mark {
 
     @Override
     public boolean equals(Object o) {
-        System.out.println("¡HE ENTRADO EN EL EQUALS!"); // Añade este print
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Mark mark = (Mark) o;
+        if (this.id == null || mark.id == null) return false;
         return Objects.equals(id, mark.id);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+        }
 
 }
