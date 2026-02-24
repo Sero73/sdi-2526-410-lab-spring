@@ -2,6 +2,8 @@ package com.uniovi.sdi.entities;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 public class Mark {
     @Id
@@ -70,4 +72,14 @@ public class Mark {
                 ", score=" + score +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        System.out.println("¡HE ENTRADO EN EL EQUALS!"); // Añade este print
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Mark mark = (Mark) o;
+        return Objects.equals(id, mark.id);
+    }
+
 }

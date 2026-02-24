@@ -4,22 +4,28 @@ import com.uniovi.sdi.entities.Mark;
 import com.uniovi.sdi.services.MarksService;
 import com.uniovi.sdi.services.UsersService;
 import com.uniovi.sdi.validators.AddMarkValidator;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Controller
 public class MarksController {
     private final MarksService marksService;
     private final UsersService usersService;
     private final AddMarkValidator addMarkValidator;
+    private final HttpSession httpSession;
 
-    public MarksController(MarksService marksService, UsersService usersService, AddMarkValidator addMarkValidator) {
+    public MarksController(MarksService marksService, UsersService usersService, AddMarkValidator addMarkValidator, HttpSession httpSession) {
         this.marksService = marksService;
         this.usersService = usersService;
         this.addMarkValidator = addMarkValidator;
+        this.httpSession = httpSession;
     }
 
     @GetMapping(value = "/mark/add")
@@ -43,6 +49,9 @@ public class MarksController {
 
     @GetMapping ("/mark/list")
     public String getList(Model model) {
+        Set<Mark> consultedList = (Set<Mark>)(httpSession.getAttribute("consultedList") != null ?
+                httpSession.getAttribute("consultedList") : new HashSet<>());
+        model.addAttribute("consultedList", consultedList);
         model.addAttribute("marksList", marksService.getMarks());
         return "mark/list";
     }
