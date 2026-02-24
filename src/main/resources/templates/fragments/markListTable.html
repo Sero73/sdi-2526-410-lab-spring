@@ -1,8 +1,3 @@
-<script>
-    $( "#updateButton" ).click(function() {
-        $("#marksTable").load('/mark/list/update');
-    });
-</script>
 <div class="table-responsive">
     <table class="table table-hover" th:fragment="marksTable" id="marksTable"  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras springsecurity6">
         <thead>
@@ -28,9 +23,14 @@
                                 class="btn btn-success">Reenviar</button>
                         <script th:inline="javascript">
                             /*<![CDATA[*/
-                            $( "#resendButton"+ "[[${mark.id}]]").click(function() {
-                                $.get( "/mark/[[${mark.id}]]/noresend", function( data ) {
-                                    $("#marksTable").load('/mark/list/update');
+                            $("#resendButton" + "[[${mark.id}]]").click(function () {
+                                $.get("/mark/[[${mark.id}]]/noresend", function () {
+                                    let page = /*[[${param.page != null and !#lists.isEmpty(param.page) ? param.page[0] : null}]]*/ null;
+                                    let urlUpdate = '/mark/list/update';
+                                    if (page != null) {
+                                        urlUpdate += "?page=" +page;
+                                    }
+                                    $("#marksTable").load(urlUpdate);
                                 });
                             });
                             /*]]>*/
@@ -41,9 +41,14 @@
                                 class="btn btn-info">No reenviar</button>
                         <script th:inline="javascript">
                             /*<![CDATA[*/
-                            $( "#noresendButton"+ "[[${mark.id}]]" ).click(function() {
-                                $.get( "/mark/[[${mark.id}]]/resend", function( data ) {
-                                    $("#marksTable").load('/mark/list/update');
+                            $("#noresendButton" + "[[${mark.id}]]").click(function () {
+                                $.get("/mark/[[${mark.id}]]/resend", function () {
+                                    let page = /*[[${param.page != null and !#lists.isEmpty(param.page) ? param.page[0] : null}]]*/ null;
+                                    let urlUpdate = '/mark/list/update';
+                                    if (page != null) {
+                                        urlUpdate += "?page=" +page;
+                                    }
+                                    $("#marksTable").load(urlUpdate);
                                 });
                             });
                             /*]]>*/
