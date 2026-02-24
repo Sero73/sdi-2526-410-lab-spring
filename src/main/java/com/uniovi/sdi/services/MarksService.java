@@ -1,6 +1,7 @@
 package com.uniovi.sdi.services;
 
 import com.uniovi.sdi.entities.Mark;
+import com.uniovi.sdi.entities.User;
 import com.uniovi.sdi.repositories.MarksRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,14 @@ public class MarksService {
         if(mark.getUser().getDni().equals(dni)  ) {
             marksRepository.updateResend(revised, id);
         }
+    }
+
+    public List<Mark> getMarksForUser(User user) {
+        List<Mark> marks = new ArrayList<>();
+        if (user.getRole().equals("ROLE_STUDENT")) {
+            marks = marksRepository.findAllByUser(user);}
+        if (user.getRole().equals("ROLE_PROFESSOR")) {
+            marks = getMarks(); }
+        return marks;
     }
 }
