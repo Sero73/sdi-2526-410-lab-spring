@@ -1,9 +1,14 @@
 package com.uniovi.sdi.services;
 
 import java.util.*;
+
+import com.uniovi.sdi.entities.Mark;
 import com.uniovi.sdi.entities.User;
 import com.uniovi.sdi.repositories.UsersRepository;
 import jakarta.annotation.PostConstruct;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Service
@@ -46,5 +51,17 @@ public class UsersService {
         oldUser.setName(user.getName());
         oldUser.setLastName(user.getLastName());
         usersRepository.save(oldUser);
+    }
+
+    public Page<User> searchUsersByNameAndSurname(Pageable pageable, String searchText) {
+        Page<User> users = new PageImpl<User>(new LinkedList<User>());
+        searchText = "%" + searchText + "%";
+
+        users = usersRepository.searchByNameAndSurname(pageable, searchText);
+        return users;
+    }
+
+    public Page<User> findAllUsers(Pageable pageable) {
+        return usersRepository.findAll(pageable);
     }
 }

@@ -36,8 +36,16 @@ public class UsersController {
         this.marksService = marksService;
     }
     @GetMapping("/user/list")
-    public String getListado(Model model) {
-        model.addAttribute("usersList", usersService.getUsers());
+    public String getListado(Model model, Pageable pageable,
+                             @RequestParam(value="", required = false) String searchText) {
+        Page<User> users;
+        if(searchText != null && !searchText.isEmpty()) {
+            users = usersService.searchUsersByNameAndSurname(pageable, searchText);
+        } else{
+            users = usersService.findAllUsers(pageable);
+        }
+        model.addAttribute("usersList", users.getContent());
+        model.addAttribute("page", users);
         return "user/list";
     }
     @GetMapping(value = "/user/add")
