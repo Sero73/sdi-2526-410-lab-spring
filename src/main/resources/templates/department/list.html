@@ -6,6 +6,13 @@ springsecurity6">
 <nav th:replace="fragments/nav"></nav>
 <div class="container" id="main-container">
     <h2>Departamentos</h2>
+    <form class="form-inline" action="/department/list">
+        <div class="form-group">
+            <input name="searchText" type="text" class="form-control" size="50"
+                   placeholder="Buscar por codigo o nombre del departamento">
+        </div>
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
     <p>Los Departamentos que actualmente figuran en el sistema son los siguientes:</p>
     <div class="table-responsive">
         <table class="table table-hover">
@@ -36,6 +43,7 @@ springsecurity6">
         </table>
     </div>
     <div th:if="${#lists.isEmpty(departmentsList)}"> No departments </div>
+    <footer th:replace="fragments/pagination"></footer>
 </div>
 <footer th:replace="fragments/footer"></footer>
 </body>

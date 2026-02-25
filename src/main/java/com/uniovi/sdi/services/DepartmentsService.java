@@ -1,8 +1,12 @@
 package com.uniovi.sdi.services;
 
 import com.uniovi.sdi.entities.Department;
+import com.uniovi.sdi.entities.User;
 import com.uniovi.sdi.repositories.DepartmentsRepository;
 import jakarta.annotation.PostConstruct;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -41,4 +45,16 @@ public class DepartmentsService {
         return departmentsRepository.findByCode(code);
     }
 
+    public Page<Department> searchByCodeAndName(Pageable pageable, String searchText) {
+        Page<Department> departments = new PageImpl<Department>(new LinkedList<Department>());
+        searchText = "%" + searchText + "%";
+
+        departments = departmentsRepository.searchByCodeAndName(pageable, searchText);
+        return departments;
+    }
+
+
+    public Page<Department> findAllDepartments(Pageable pageable) {
+        return departmentsRepository.findAll(pageable);
+    }
 }

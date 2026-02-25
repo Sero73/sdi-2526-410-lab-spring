@@ -3,6 +3,8 @@ package com.uniovi.sdi.controllers;
 import com.uniovi.sdi.entities.Department;
 import com.uniovi.sdi.services.DepartmentsService;
 import com.uniovi.sdi.validators.AddDepartmentValidator;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,8 +23,19 @@ public class DepartmentsController {
     }
 
     @RequestMapping("/department/list")
-    public String getList(Model departmentModel) {
-        departmentModel.addAttribute("departmentsList", departmentsService.getDepartments());
+    public String getList(Model departmentModel, Pageable pageable,
+                          @RequestParam(value="", required = false) String searchText) {
+
+        Page<Department> departments;
+
+        if(searchText != null && !searchText.isEmpty()) {
+            departments = departmentsService.searchByCodeAndName(pageable, searchText);
+        } else{
+            departments = departmentsService.findAllDepartments(pageable);
+        }
+
+        departmentModel.addAttribute("departmentsList", departments.getContent());
+        departmentModel.addAttribute("page", departments);
         return "department/list";
     }
 
