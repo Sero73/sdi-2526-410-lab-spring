@@ -42,8 +42,8 @@ public class DepartmentsController {
        return "redirect:/department/list";
     }
 
-    @GetMapping("/department/details")
-    public String getDetail(Model departmentModel, @RequestParam("id") Long id) {
+    @GetMapping("/department/details/{id}")
+    public String getDetail(Model departmentModel, @PathVariable Long id) {
         departmentModel.addAttribute("department", departmentsService.getDepartment(id));
         return "department/details";
     }
@@ -64,7 +64,7 @@ public class DepartmentsController {
     public String setEdit(@ModelAttribute Department department, @PathVariable Long id){
         department.setId(id);
         departmentsService.addDepartment(department);
-        return "redirect:/department/details?id="+ id;
+        return "redirect:/department/details/"+ id;
     }
 
 
