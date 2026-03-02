@@ -2,6 +2,8 @@ package com.uniovi.sdi;
 
 import com.uniovi.sdi.pageobjects.PO_HomeView;
 import com.uniovi.sdi.pageobjects.PO_Properties;
+import com.uniovi.sdi.pageobjects.PO_SignUpView;
+import com.uniovi.sdi.pageobjects.PO_View;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -88,10 +90,18 @@ class Sdi2526410SpringApplicationTests {
                 PO_Properties.getSPANISH(), PO_Properties.getENGLISH());
     }
 
+    //PR05. Prueba del formulario de registro. registro con datos correctos
     @Test
     @Order(6)
-    void PR06() {
-        Assertions.assertTrue(true);
+    public void PR05() {
+        //Vamos al formulario de registro
+        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+        //Rellenamos el formulario.
+        PO_SignUpView.fillForm(driver, "77777778A", "Josefo", "Perez", "77777", "77777");
+        //Comprobamos que entramos en la sección privada y nos nuestra el texto a buscar
+        String checkText =  "Notas del usuario";
+        List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
+        Assertions.assertEquals(checkText, result.getFirst().getText());
     }
 
     @Test
