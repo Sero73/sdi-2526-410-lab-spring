@@ -42,7 +42,7 @@ public class InsertDataSampleService {
         Set<Mark> user1Marks = new HashSet<>() {
             {
                 add(new Mark("Nota A1", 10.0, user1));
-
+                add(new Mark("Nota A2", 9.0, user1));
                 add(new Mark("Nota A3", 7.0, user1));
                 add(new Mark("Nota A4", 6.5, user1));
             }
