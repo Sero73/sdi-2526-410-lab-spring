@@ -2,7 +2,7 @@ package com.uniovi.sdi.pageobjects;
 
 import java.util.List;
 
-import com.uniovi.sdi.grademanager.util.SeleniumUtils;
+import com.uniovi.sdi.util.SeleniumUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
